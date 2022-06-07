@@ -6,13 +6,17 @@ import (
 	"os"
 )
 
-const Default_Config_File_Extension = "json"
+const Default_Config_File_Type = "json"
 const Default_Config_Folder = "config"
 const Default_Config_File_Name = "dev"
 
 var Default_Path = "config/dev.json"
 
 func InitConfiguration(path string, fileType string) (*Config, error) {
+
+	if fileType == "" {
+		fileType = Default_Config_File_Type
+	}
 
 	if path != "" {
 		Default_Path = fmt.Sprintf("%s.%s", path, fileType)
@@ -30,7 +34,9 @@ func InitConfiguration(path string, fileType string) (*Config, error) {
 func getConfiguration(path string) (*Config, error) {
 
 	var configuration Config
+
 	file, err := os.Open(path)
+
 	if err != nil {
 		return nil, err
 	}
